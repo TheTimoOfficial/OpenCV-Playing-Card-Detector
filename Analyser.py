@@ -73,6 +73,8 @@ def check_hand(hand):
 
     if check_one_pairs(hand):
         return 2
+
+    return 1
     
 
 
@@ -134,11 +136,11 @@ def check_flush(hand):
 
     for card in hand:
 
-        if card.startswith('Clubs'):
+        if card.endswith('C'):
             cardcolors['clubs'] = cardcolors['clubs'] + 1
-        elif card.startswith('Diamonds'):
+        elif card.endswith('D'):
             cardcolors['diamonds'] = cardcolors['diamonds'] + 1
-        elif card.startswith('Spades'):
+        elif card.endswith('S'):
             cardcolors['spades'] = cardcolors['spades'] + 1
         else:
             cardcolors['hearts'] = cardcolors['hearts'] + 1
@@ -146,22 +148,11 @@ def check_flush(hand):
     for x in cardcolors:
         if cardcolors[x] >= 5:
             return True
-            break
+            
         else:
-            return False
-
-    
-    '''
-    suits = [i[1] for i in hand]
-
-    lengh = len(set(suits))
-
-    if lengh ==3 or lengh == 2:
-        return True
-    else:
-        return False
-    '''
-
+            pass
+        
+    return False
 
 
 
@@ -227,163 +218,3 @@ def check_one_pairs(hand):
         return True
     else:
         return False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-def checkRoyalty(wholeCards):
-    pass
-
-
-
-#Check if the Hand is a Flush, if so, check if its a Straight or a Royal Flush
-def checkFlush(hand):
-    cardcolors = {
-    'clubs' : 0,
-    'diamonds' : 0,
-    'spades' : 0,
-    'hearts' : 0
-    }
-    
-
-    for card in hand:
-
-        if card.startswith('Clubs'):
-            cardcolors['clubs'] = cardcolors['clubs'] + 1
-        elif card.startswith('Diamonds'):
-            cardcolors['diamonds'] = cardcolors['diamonds'] + 1
-        elif card.startswith('Spades'):
-            cardcolors['spades'] = cardcolors['spades'] + 1
-        else:
-            cardcolors['hearts'] = cardcolors['hearts'] + 1
-
-    for x in cardcolors:
-        if cardcolors[x] >= 5:
-            isFlush = True
-            isStraight = checkStraight(hand)
-            break
-        else:
-            isFlush = False
-
-    return isFlush, isStraight
-
-
-
-def checkStraight(hand):
-    cardranks = {
-        'Ace' : 0,
-        'Two' : 0,
-        'Three': 0,
-        'Four' : 0,
-        'Five' : 0,
-        'Six' : 0,
-        'Seven' : 0,
-        'Eight' : 0,
-        'Nine' : 0,
-        'Ten' : 0,
-        'Jack' : 0,
-        'Queen' : 0,
-        'King' : 0
-    }
-
-    for card in hand:
-        pass
-        
-
-
-
-
-def checkQuads(hand):
-    pass
-
-
-
-def checkThreeOfKind(hand):
-    pass
-
-
-
-def checkPair(hand):
-    pass
-
-
-#Die 2 Karten des Spielers nach der höchsten filtern
-def checkHighCard(playerCard):
-    pass 
-'''
