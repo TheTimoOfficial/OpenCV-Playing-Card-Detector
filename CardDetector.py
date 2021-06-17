@@ -12,6 +12,7 @@ import numpy as np
 import time
 import os
 import Cards
+import CardGrabber
 import VideoStream
 
 
@@ -35,7 +36,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 # See VideoStream.py for VideoStream class definition
 ## IF USING USB CAMERA INSTEAD OF PICAMERA,
 ## CHANGE THE THIRD ARGUMENT FROM 1 TO 2 IN THE FOLLOWING LINE:
-videostream = VideoStream.VideoStream((IM_WIDTH,IM_HEIGHT),FRAME_RATE,1,0).start()
+videostream = VideoStream.VideoStream((IM_WIDTH,IM_HEIGHT),FRAME_RATE,2,0).start()
 time.sleep(1) # Give the camera time to warm up
 
 # Load the train rank and suit images
@@ -49,7 +50,7 @@ train_suits = Cards.load_suits( path + '/Card_Imgs/')
 # and processes them to find and identify playing cards.
 
 cam_quit = 0 # Loop control variable
-
+count = 0
 # Begin capturing frames
 while cam_quit == 0:
 
@@ -72,7 +73,7 @@ while cam_quit == 0:
         # k indexes the newly made array of cards.
         cards = []
         k = 0
-
+        
         # For each contour detected:
         for i in range(len(cnts_sort)):
             if (cnt_is_card[i] == 1):
@@ -86,9 +87,10 @@ while cam_quit == 0:
 
                 # Find the best rank and suit match for the card.
                 cards[k].best_rank_match,cards[k].best_suit_match,cards[k].rank_diff,cards[k].suit_diff = Cards.match_card(cards[k],train_ranks,train_suits)
-
+                
                 # Draw center point and match result on the image.
                 image = Cards.draw_results(image, cards[k])
+                saveCard = CardGrabber.getCard(cards[k], count)
                 k = k + 1
 	    
         # Draw card contours on image (have to do contours all at once or
@@ -98,7 +100,11 @@ while cam_quit == 0:
             for i in range(len(cards)):
                 temp_cnts.append(cards[i].contour)
             cv2.drawContours(image,temp_cnts, -1, (255,0,0), 2)
-        
+
+        if count <= 25:    
+            count = count + 1
+        else:
+            count = 0
         
     # Draw framerate in the corner of the image. Framerate is calculated at the end of the main loop,
     # so the first time this runs, framerate will be shown as 0.
